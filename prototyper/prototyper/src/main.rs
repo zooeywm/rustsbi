@@ -153,7 +153,10 @@ extern "C" fn rust_main(_hart_id: usize, opaque: usize, nonstandard_a2: usize) {
             }
         }
         // Set up trap handling.
-        mtvec::write(fast_trap::trap_entry as _, mtvec::TrapMode::Direct);
+        mtvec::write(
+            fast_trap::trap_entry as *const () as _,
+            mtvec::TrapMode::Direct,
+        );
     }
 }
 

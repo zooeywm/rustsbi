@@ -343,6 +343,12 @@ pub mod file_ops {
         }
     }
 
+    impl Default for IdentityIterator {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+
     impl Iterator for IdentityIterator {
         type Item = u16;
 
@@ -372,12 +378,12 @@ pub mod file_ops {
             let mut updates = [(0, Eip::from_raw(0)); 64];
 
             for &identity in identities {
-                if let Some((reg_idx, bit_pos)) = identity_to_register(identity) {
-                    if reg_idx < 64 {
-                        let eip = &mut updates[reg_idx as usize].1;
-                        updates[reg_idx as usize].0 = reg_idx;
-                        *eip = eip.set_pending(bit_pos, true);
-                    }
+                if let Some((reg_idx, bit_pos)) = identity_to_register(identity)
+                    && reg_idx < 64
+                {
+                    let eip = &mut updates[reg_idx as usize].1;
+                    updates[reg_idx as usize].0 = reg_idx;
+                    *eip = eip.set_pending(bit_pos, true);
                 }
             }
 
@@ -389,12 +395,12 @@ pub mod file_ops {
             let mut updates = [(0, Eie::from_raw(0)); 64];
 
             for &identity in identities {
-                if let Some((reg_idx, bit_pos)) = identity_to_register(identity) {
-                    if reg_idx < 64 {
-                        let eie = &mut updates[reg_idx as usize].1;
-                        updates[reg_idx as usize].0 = reg_idx;
-                        *eie = eie.set_enabled(bit_pos, true);
-                    }
+                if let Some((reg_idx, bit_pos)) = identity_to_register(identity)
+                    && reg_idx < 64
+                {
+                    let eie = &mut updates[reg_idx as usize].1;
+                    updates[reg_idx as usize].0 = reg_idx;
+                    *eie = eie.set_enabled(bit_pos, true);
                 }
             }
 
@@ -477,6 +483,10 @@ pub mod system {
                     + (hart_id << self.guest_offset_bits) as usize
                     + (guest_index << self.guest_offset_bits) as usize
             })
+        }
+
+        pub const fn count_zeros(self) -> u32 {
+            self.hart_offset_bits.count_zeros()
         }
     }
 

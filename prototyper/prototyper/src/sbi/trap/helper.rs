@@ -44,7 +44,7 @@ pub fn get_unsigned_byte(addr: usize) -> u8 {
     unsafe {
         let prev_mtvec = mtvec::read().bits();
         mtvec::write(
-            crate::sbi::early_trap::expected_trap as _,
+            crate::sbi::early_trap::expected_trap as *const () as _,
             mtvec::TrapMode::Direct,
         );
         asm!(
@@ -72,7 +72,7 @@ pub fn save_byte(addr: usize, data: usize) {
         let prev_mtvec = mtvec::read().bits();
         let mut status: usize = 0;
         mtvec::write(
-            crate::sbi::early_trap::expected_trap as _,
+            crate::sbi::early_trap::expected_trap as *const () as _,
             mtvec::TrapMode::Direct,
         );
         asm!(

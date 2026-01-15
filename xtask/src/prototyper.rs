@@ -190,7 +190,7 @@ fn build_prototyper(arg: &PrototyperArg) -> Option<ExitStatus> {
     result
 }
 
-fn copy_output_files(target_dir: &PathBuf, arg: &PrototyperArg) -> Option<()> {
+fn copy_output_files(target_dir: &Path, arg: &PrototyperArg) -> Option<()> {
     let mode_suffix = if arg.payload.is_some() {
         info!("Copy for payload mode");
         "payload"

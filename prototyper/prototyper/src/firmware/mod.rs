@@ -20,7 +20,7 @@ use crate::riscv::current_hartid;
 /// Get work hart, for both steps.
 ///
 /// Init hart can be random choose when DynamicInfo can not be read.
-pub fn is_work_hart(nonstandard_a2: usize, boot: bool) -> bool {
+pub fn is_work_hart(_nonstandard_a2: usize, boot: bool) -> bool {
     use core::sync::atomic::{AtomicBool, Ordering};
     // Track whether this is the first hart to boot
     static GENESIS_INIT: AtomicBool = AtomicBool::new(true);
@@ -31,7 +31,7 @@ pub fn is_work_hart(nonstandard_a2: usize, boot: bool) -> bool {
             let info: _ = None;
         }
         else {
-            let info = read_paddr(nonstandard_a2).ok().and_then(|x| Some(x.boot_hart));
+            let info = read_paddr(_nonstandard_a2).ok().and_then(|x| Some(x.boot_hart));
         }
     }
 

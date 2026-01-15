@@ -85,18 +85,30 @@ pub mod raw {
     use sbi_spec::binary::SbiRet;
 
     /// Raw SBI call with 0 parameters.
+    ///
+    /// # Safety
+    ///
+    /// This function is **unsafe** because it makes a raw SBI call
     #[inline(always)]
     pub unsafe fn sbi_call_0(eid: usize, fid: usize) -> SbiRet {
         super::binary::sbi_call_0(eid, fid)
     }
 
     /// Raw SBI call with 1 parameter.
+    ///
+    /// # Safety
+    ///
+    /// Same safety requirements as [`sbi_call_0`].
     #[inline(always)]
     pub unsafe fn sbi_call_1(eid: usize, fid: usize, arg0: usize) -> SbiRet {
         super::binary::sbi_call_1(eid, fid, arg0)
     }
 
     /// Raw SBI call with 2 parameters.
+    ///
+    /// # Safety
+    ///
+    /// Same safety requirements as [`sbi_call_0`].
     #[inline(always)]
     pub unsafe fn sbi_call_2(eid: usize, fid: usize, arg0: usize, arg1: usize) -> SbiRet {
         super::binary::sbi_call_2(eid, fid, arg0, arg1)
